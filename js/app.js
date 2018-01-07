@@ -137,6 +137,22 @@ new Vue({
             }
         },
 
+        buyContractForDuration: function (type, duration) {
+            var api = this.client.api;
+            api.buyContractParams({
+                amount: this.client.stake,
+                basis: 'stake',
+                contract_type: type,
+                currency: 'USD',
+                symbol: this.config.symbol,
+                duration: duration,
+                duration_unit: 's'
+            }, this.client.stake).then(function (data) {
+                var buy = data.buy;
+                api.subscribeToOpenContract(buy.contract_id);
+            });
+        },
+
         processContractResult: function(contract) {
             var client = this.client;
             if (contract.status == 'won') {
