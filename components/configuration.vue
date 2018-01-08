@@ -81,10 +81,7 @@
         </div>
         <div>
             <button @click="refreshChart()" class="btn btn-success btn-sm">Refresh Chart</button>
-            <button @click="authorize()" class="btn btn-primary btn-sm" :disabled="client.status != 'Connected'">
-                <span v-if="!isAuthorizing">&nbsp;Authorize</span>
-                <span v-if="isAuthorizing">&nbsp;Authorizing...</span>
-            </button>
+            <button @click="authorize()" class="btn btn-primary btn-sm" :disabled="client.status != 'Connected'">{{btnAuthorizeLabel}}</button>
         </div>
     </div>
 </div>
@@ -184,6 +181,18 @@ module.exports = {
         isAuthorizing: function () {
             return this.client.status == 'Authorizing';
         },
+        isAuthorized: function () {
+            return this.client.status == 'Authorized';
+        },
+        btnAuthorizeLabel: function () {
+            if (this.isAuthorizing) {
+                return 'Authorizing...';
+            }
+            if (this.isAuthorized) {
+                return 'Authorized';
+            }
+            return 'Authorize';
+        }
     }
 }
 </script>
