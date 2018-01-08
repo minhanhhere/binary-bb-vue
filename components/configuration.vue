@@ -81,8 +81,10 @@
         </div>
         <div>
             <button @click="refreshChart()" class="btn btn-success btn-sm">Refresh Chart</button>
-            <button @click="authorize()" class="btn btn-primary btn-sm" :disabled="client.status != 'Connected'">Authorize</button>
-            <span v-if="isAuthorizing">&nbsp;Authorizing...</span>
+            <button @click="authorize()" class="btn btn-primary btn-sm" :disabled="client.status != 'Connected'">
+                <span v-if="!isAuthorizing">&nbsp;Authorize</span>
+                <span v-if="isAuthorizing">&nbsp;Authorizing...</span>
+            </button>
         </div>
     </div>
 </div>
