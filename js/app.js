@@ -92,6 +92,14 @@ new Vue({
     },
     methods: {
 
+        isRed: function (candle) {
+            return candle.close < candle.open;
+        },
+
+        isGreen: function (candle) {
+            return candle.close > candle.open;
+        },
+
         candleBodyCenter: function (candle) {
             return candle.open + (candle.close - candle.open) / 2;
         },
@@ -121,18 +129,21 @@ new Vue({
         },
 
         checkDarkCloud: function (second, candle) {
-            if (!this.config.darkcloud || this.client.bbArray.length == 0) {
+            if (!this.config.darkcloud || this.client.bbArray.length < 2) {
                 return;
             }
-            var prevCandle = this.prevCandle;
-            var prevBB = this.client.bbArray.slice(-1)[0];
-            var client = this.client;
             if (second == 58) {
+                var prevCandle = this.prevCandle;
+                var prevBB = this.client.bbArray.slice(-2)[0];
                 var tradeType = '';
-                if (prevCandle.high > prevBB[1] && (candle.open - prevCandle.close >= -0.2) && (candle.close <= this.candleBodyCenter(prevCandle))) {
+                if (this.isGreen(prevCandle) && this.isRed(candle) &&
+                    (prevCandle.high > prevBB[1]) &&
+                    (candle.open - prevCandle.close >= -0.2) && (candle.close <= this.candleBodyCenter(prevCandle))) {
                     tradeType = 'PUT';
                 }
-                if (prevCandle.low < prevBB[2] && (prevCandle.close - candle.open >= -0.2) && (candle.close >= this.candleBodyCenter(prevCandle))) {
+                if (this.isRed(prevCandle) && this.isGreen(candle) &&
+                    prevCandle.low < prevBB[2] &&
+                    (prevCandle.close - candle.open >= -0.2) && (candle.close >= this.candleBodyCenter(prevCandle))) {
                     tradeType = 'CALL';
                 }
                 if (tradeType != '' && this.isAuto && this.canTrade) {
