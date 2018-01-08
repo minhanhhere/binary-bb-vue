@@ -80,6 +80,7 @@
             </div>
         </div>
         <div>
+            <button @click="refreshChart()" class="btn btn-success btn-sm">Refresh Chart</button>
             <button @click="authorize()" class="btn btn-primary btn-sm" :disabled="client.status != 'Connected'">Authorize</button>
             <span v-if="isAuthorizing">&nbsp;Authorizing...</span>
         </div>
@@ -92,6 +93,10 @@ module.exports = {
     props: ['config', 'client'],
 
     methods: {
+
+        refreshChart: function () {
+            document.querySelector('.tradingview').src = document.querySelector('.tradingview').src;
+        },
 
         authorize: function () {
 
