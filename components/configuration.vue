@@ -53,6 +53,27 @@
                 </div>
             </div>
         </div>
+        <div class="form-group form-row">
+            <div class="input-group input-group-sm col">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">DarkCloud</span>
+                </div>
+                <label class="mar__switch">
+                    <input type="checkbox" v-model="config.darkcloud">
+                    <span class="mar__slider"><span class="mar__slider_title"></span></span>
+                </label>
+            </div>
+            <div class="input-group input-group-sm col">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Engulfing</span>
+                </div>
+                <label class="mar__switch">
+                    <input type="checkbox" v-model="config.engulfing">
+                    <span class="mar__slider"><span class="mar__slider_title"></span></span>
+                </label>
+            </div>
+            <div class="input-group input-group-sm col"></div>
+        </div>
         <div class="mb-3">
             <button @click="authorize()" class="btn btn-primary btn-sm" :disabled="client.status != 'Connected'">Authorize</button>
             <span v-if="isAuthorizing">&nbsp;Authorizing...</span>

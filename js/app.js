@@ -18,10 +18,13 @@ new Vue({
             duration: 59,
             auto: false,
             wait: 9,
+            darkcloud: true,
+            engulfing: true,
         },
         client: {
             api: 0,
             bb: {},
+            bbArray: [],
             contracts: [],
             candles:[],
             level: 1,
@@ -83,8 +86,15 @@ new Vue({
         lastCandle: function() {
             return this.client.candles.slice(-1)[0];
         },
+        prevCandle: function() {
+            return this.client.candles.slice(-2)[0];
+        },
     },
     methods: {
+
+        candleBodyCenter: function (candle) {
+            return candle.open + (candle.close - candle.open) / 2;
+        },
 
         checkSignal: function (second, candle) {
             var client = this.client;
@@ -107,6 +117,28 @@ new Vue({
                         client.signal = undefined;
                     }
                 }, 8000);
+            }
+        },
+
+        checkDarkCloud: function (second, candle) {
+            if (!this.config.darkcloud || this.client.bbArray.length == 0) {
+                return;
+            }
+            var prevCandle = this.prevCandle;
+            var prevBB = this.client.bbArray.slice(-1)[0];
+            var client = this.client;
+            if (second == 58) {
+                var tradeType = '';
+                if (prevCandle.high > prevBB[1] && (candle.open - prevCandle.close >= -0.2) && (candle.close <= this.candleBodyCenter(prevCandle))) {
+                    tradeType = 'PUT';
+                }
+                if (prevCandle.low < prevBB[2] && (prevCandle.close - candle.open >= -0.2) && (candle.close >= this.candleBodyCenter(prevCandle))) {
+                    tradeType = 'CALL';
+                }
+                if (tradeType != '' && this.isAuto && this.canTrade) {
+                    console.log('Darkcloud signal: ', tradeType);
+                    this.buyContractForDuration(tradeType, 59);
+                }
             }
         },
 
@@ -168,11 +200,11 @@ new Vue({
             }
             client.profit = +client.profit.toFixed(2);
             if (client.level == 1) {
-                client.stake = +client.config.initStake;
+                client.stake = +this.config.initStake;
             }
-            if (client.level == 2 || client.level == 3) {
-                client.stake = +(contract.payout / client.profitRatio).toFixed(2);
-            }
+            // if (client.level == 2 || client.level == 3) {
+            //     client.stake = +(contract.payout / client.profitRatio).toFixed(2);
+            // }
         },
 
         handleOHLC: function(data) {
@@ -196,15 +228,22 @@ new Vue({
             var bb = this.client.bb = calculateBB(candles, {
                 periods: 20,
                 pipSize: 4,
-                stdDevUp: 2.4,
-                stdDevDown: 2.4,
+                stdDevUp: 2.5,
+                stdDevDown: 2.5,
                 field: 'close',
             });
+            if (second == 58) {
+                this.client.bbArray.push(bb);
+                if (this.client.bbArray.length > 100) {
+                    this.client.bbArray.shift();
+                }
+            }
             if (Math.abs(candle.close - bb[1]) <= delta || Math.abs(candle.close - bb[2]) <= delta) {
                 if (second >= 40) {
                     this.sendNotification(second, candle, delta);
                 }
             }
+            this.checkDarkCloud(second, candle);
             this.checkSignal(second, candle);
             this.client.second = second;
         }
