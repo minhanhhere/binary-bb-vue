@@ -20,6 +20,7 @@ new Vue({
             wait: 9,
             darkcloud: true,
             engulfing: true,
+            dev: 2.4,
         },
         client: {
             api: 0,
@@ -147,7 +148,7 @@ new Vue({
                     tradeType = 'CALL';
                 }
                 if (tradeType != '' && this.isAuto && this.canTrade) {
-                    console.log('Darkcloud signal: ', tradeType);
+                    console.log(candle.time, ' - Darkcloud signal: ', tradeType);
                     this.buyContractForDuration(tradeType, 59);
                 }
             }
@@ -239,8 +240,8 @@ new Vue({
             var bb = this.client.bb = calculateBB(candles, {
                 periods: 20,
                 pipSize: 4,
-                stdDevUp: 2.5,
-                stdDevDown: 2.5,
+                stdDevUp: +this.config.dev,
+                stdDevDown: +this.config.dev,
                 field: 'close',
             });
             if (second == 58) {
@@ -255,7 +256,7 @@ new Vue({
                 }
             }
             this.checkDarkCloud(second, candle);
-            this.checkSignal(second, candle);
+            // this.checkSignal(second, candle);
             this.client.second = second;
         }
     }

@@ -36,12 +36,9 @@
             </div>
             <div class="input-group input-group-sm col">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">Auto</span>
+                    <span class="input-group-text">Deviation</span>
                 </div>
-                <label class="mar__switch">
-                    <input type="checkbox" v-model="config.auto">
-                    <span class="mar__slider"><span class="mar__slider_title"></span></span>
-                </label>
+                <input type="number" class="form-control" placeholder="Symbol" v-model="config.dev">
             </div>
             <div class="input-group input-group-sm col">
                 <div class="input-group-prepend">
@@ -56,7 +53,16 @@
         <div class="form-group form-row">
             <div class="input-group input-group-sm col">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">DarkCloud</span>
+                    <span class="input-group-text">Auto</span>
+                </div>
+                <label class="mar__switch">
+                    <input type="checkbox" v-model="config.auto">
+                    <span class="mar__slider"><span class="mar__slider_title"></span></span>
+                </label>
+            </div>
+            <div class="input-group input-group-sm col">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><small>DarkCloud</small></span>
                 </div>
                 <label class="mar__switch">
                     <input type="checkbox" v-model="config.darkcloud">
@@ -65,16 +71,15 @@
             </div>
             <div class="input-group input-group-sm col">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">Engulfing</span>
+                    <span class="input-group-text">Engulf</span>
                 </div>
                 <label class="mar__switch">
                     <input type="checkbox" v-model="config.engulfing">
                     <span class="mar__slider"><span class="mar__slider_title"></span></span>
                 </label>
             </div>
-            <div class="input-group input-group-sm col"></div>
         </div>
-        <div class="mb-3">
+        <div>
             <button @click="authorize()" class="btn btn-primary btn-sm" :disabled="client.status != 'Connected'">Authorize</button>
             <span v-if="isAuthorizing">&nbsp;Authorizing...</span>
         </div>
