@@ -149,7 +149,7 @@ new Vue({
                 }
                 if (tradeType != '' && this.isAuto && this.canTrade) {
                     console.log(candle.time, ' - Darkcloud signal: ', tradeType);
-                    this.buyContractForDuration(tradeType, 59);
+                    this.buyContractForDuration(tradeType, 110);
                 }
             }
         },

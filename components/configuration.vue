@@ -138,7 +138,7 @@ module.exports = {
             var api = this.client.api;
             api.getProfitTable({
                 description: 1,
-                date_from: moment().startOf('day').utc().format('YYYY-MM-DD'),
+                date_from: moment.utc().format('YYYY-MM-DD'),
                 date_to: moment.utc().format('YYYY-MM-DD'),
             }).then(function(data) {
                 var transactions = data.profit_table.transactions;
