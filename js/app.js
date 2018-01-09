@@ -20,12 +20,12 @@ new Vue({
             wait: 9,
             darkcloud: true,
             engulfing: true,
-            dev: 2.4,
+            dev: 2.5,
         },
         client: {
             api: 0,
             bb: {},
-            bbArray: [],
+            bb2Array: [],
             contracts: [],
             candles:[],
             level: 1,
@@ -119,6 +119,7 @@ new Vue({
                     tradeType = 'CALL';
                 }
                 if (tradeType != '' && this.isAuto && this.canTrade) {
+                    console.log(candle.time, ' - Over BollingBands signal: ', tradeType);
                     this.buyContractForDuration(tradeType, 59);
                 }
                 setTimeout(function () {
@@ -130,12 +131,12 @@ new Vue({
         },
 
         checkDarkCloud: function (second, candle) {
-            if (!this.config.darkcloud || this.client.bbArray.length < 2) {
+            if (!this.config.darkcloud || this.client.bb2Array.length < 2) {
                 return;
             }
             if (second == 58) {
                 var prevCandle = this.prevCandle;
-                var prevBB = this.client.bbArray.slice(-2)[0];
+                var prevBB = this.client.bb2Array.slice(-2)[0];
                 var tradeType = '';
                 if (this.isGreen(prevCandle) && this.isRed(candle) &&
                     (prevCandle.high > prevBB[1]) &&
@@ -244,10 +245,17 @@ new Vue({
                 stdDevDown: +this.config.dev,
                 field: 'close',
             });
+            var bb2 = calculateBB(candles, {
+                periods: 20,
+                pipSize: 4,
+                stdDevUp: 2,
+                stdDevDown: 2,
+                field: 'close',
+            });
             if (second == 58) {
-                this.client.bbArray.push(bb);
-                if (this.client.bbArray.length > 100) {
-                    this.client.bbArray.shift();
+                this.client.bb2Array.push(bb2);
+                if (this.client.bb2Array.length > 100) {
+                    this.client.bb2Array.shift();
                 }
             }
             if (Math.abs(candle.close - bb[1]) <= delta || Math.abs(candle.close - bb[2]) <= delta) {
@@ -256,7 +264,7 @@ new Vue({
                 }
             }
             this.checkDarkCloud(second, candle);
-            // this.checkSignal(second, candle);
+            this.checkSignal(second, candle);
             this.client.second = second;
         }
     }
