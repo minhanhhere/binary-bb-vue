@@ -13,7 +13,7 @@ new Vue({
     },
     data: {
         config: {
-            symbol: 'R_100',
+            symbol: 'R_25',
             initStake: 1,
             duration: 59,
             auto: false,
