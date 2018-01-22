@@ -105,6 +105,10 @@ new Vue({
             return candle.open + (candle.close - candle.open) / 2;
         },
 
+        candleBody: function (candle) {
+            return Math.abs(candle.close - candle.open);
+        },
+
         checkSignal: function (second, candle) {
             if (!this.config.bbSignal) {
                 return;
@@ -141,6 +145,9 @@ new Vue({
                 var prevCandle = this.prevCandle;
                 var prevBB = this.client.bb2Array.slice(-2)[0];
                 var tradeType = '';
+                if (this.candleBody(candle) < 1.5 || this.candleBody(prevCandle) < 1.5) {
+                    return;
+                }
                 if (this.isGreen(prevCandle) && this.isRed(candle) &&
                     (prevCandle.high > prevBB[1]) &&
                     (candle.open - prevCandle.close >= -0.2) && (candle.close <= this.candleBodyCenter(prevCandle))) {
