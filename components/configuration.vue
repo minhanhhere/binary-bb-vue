@@ -71,10 +71,10 @@
             </div>
             <div class="input-group input-group-sm col">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">Engulf</span>
+                    <span class="input-group-text">BB</span>
                 </div>
                 <label class="mar__switch">
-                    <input type="checkbox" v-model="config.engulfing">
+                    <input type="checkbox" v-model="config.bbSignal">
                     <span class="mar__slider"><span class="mar__slider_title"></span></span>
                 </label>
             </div>
