@@ -145,7 +145,7 @@ new Vue({
                 var prevCandle = this.prevCandle;
                 var prevBB = this.client.bb2Array.slice(-2)[0];
                 var tradeType = '';
-                if (this.candleBody(candle) < 1.5 || this.candleBody(prevCandle) < 1.5) {
+                if (this.candleBody(prevCandle) < 1.5) {
                     return;
                 }
                 if (this.isGreen(prevCandle) && this.isRed(candle) &&
