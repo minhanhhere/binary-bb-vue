@@ -3,7 +3,7 @@ new Vue({
     el: '#app',
     components: {
         'configuration': httpVueLoader('components/monitor/configuration.vue'),
-        'list-contracts': httpVueLoader('components/list-contracts.vue'),
+        'list-contracts': httpVueLoader('components/monitor/list-contracts.vue'),
     },
     data: {
         config: {},
