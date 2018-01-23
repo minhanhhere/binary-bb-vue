@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="icon" sizes="192x192" type="image/png" href="https://www.binary.com/images/favicons/favicon-192x192.png" />
+    <link rel="icon" sizes="160x160" type="image/png" href="https://www.binary.com/images/favicons/favicon-160x160.png" />
+    <link rel="icon" sizes="96x96" type="image/png" href="https://www.binary.com/images/favicons/favicon-96x96.png" />
+    <link rel="icon" sizes="16x16" type="image/png" href="https://www.binary.com/images/favicons/favicon-16x16.png" />
+    <link rel="icon" sizes="32x32" type="image/png" href="https://www.binary.com/images/favicons/favicon-32x32.png" />
+
+    <title>Binary Trader</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/app.css">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/http-vue-loader"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue2-filters/dist/vue2-filters.min.js"></script>
+
+    <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+
+    <script src="./js/binary-live-api.js"></script>
+    <script src="./js/common-function.js"></script>
+</head>
+
+<body>
+
+<div id="app" class="container-fluid">
+    <div class="mb-2"></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col">
+                    <configuration :config="config" :client="client"></configuration>
+                    <list-contracts :config="config" :client="client"></list-contracts>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6"></div>
+    </div>
+</div>
+
+</body>
+
+<script>
+    if (Notification.permission !== "granted")
+        Notification.requestPermission();
+</script>
+
+<script src="./js/monitor.js"></script>
+
+</html>
