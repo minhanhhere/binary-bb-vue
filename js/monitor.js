@@ -62,7 +62,7 @@ new Vue({
             var client = this.client;
             var image = type == 'PUT' ? 'img/put.png' : 'img/call.png';
             if (!client.notification) {
-                client.notification = new Notification('Notification for ' + config.symbol, {
+                client.notification = new Notification('New contract', {
                     icon: 'https://www.binary.com/images/favicons/favicon-96x96.png',
                     image: image,
                     body: body
