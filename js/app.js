@@ -141,6 +141,9 @@ new Vue({
             if (!this.config.darkcloud || this.client.bb2Array.length < 2) {
                 return;
             }
+            if (this.client.profit && this.client.profit >= 0.9 * this.config.initStake) {
+                return;
+            }
             if (second == 58) {
                 var prevCandle = this.prevCandle;
                 var prevBB = this.client.bb2Array.slice(-2)[0];
@@ -160,7 +163,7 @@ new Vue({
                 }
                 if (tradeType != '' && this.isAuto && this.canTrade) {
                     console.log(candle.time, ' - Darkcloud signal: ', tradeType);
-                    this.buyContractForDuration(tradeType, 57);
+                    this.buyContractForDuration(tradeType, 59);
                 }
             }
         },
@@ -261,8 +264,8 @@ new Vue({
             var bb2 = calculateBB(candles, {
                 periods: 20,
                 pipSize: 4,
-                stdDevUp: 2,
-                stdDevDown: 2,
+                stdDevUp: 2.3,
+                stdDevDown: 2.3,
                 field: 'close',
             });
             if (second == 58) {
